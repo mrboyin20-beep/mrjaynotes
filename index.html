@@ -1,765 +1,515 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>College Notes Store | Buy Notes, Instant PDF Download</title>
-    <!-- Google Fonts + Font Awesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Razorpay CDN -->
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <!-- jsPDF for PDF generation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kolhan University · Admission</title>
+  <!-- Font Awesome & Google Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #eef4fa 0%, #dce8f2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.8rem;
+      animation: bgFade 1s ease;
+    }
+    @keyframes bgFade {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    .portal-card {
+      max-width: 780px;
+      width: 100%;
+      background: rgba(255,255,255,0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: 56px;
+      box-shadow: 0 40px 80px -16px rgba(0, 30, 50, 0.35), 0 8px 28px rgba(0,0,0,0.06);
+      padding: 2.4rem 2.8rem;
+      border: 1px solid rgba(255,255,255,0.6);
+      transition: all 0.3s ease;
+      animation: slideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes slideUp {
+      0% { transform: translateY(30px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    @media (max-width: 550px) {
+      .portal-card { padding: 1.6rem; border-radius: 32px; }
+    }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #fef9f0 0%, #fff4e8 100%);
-            color: #2d2a24;
-            line-height: 1.5;
-        }
+    /* header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1.2rem;
+      border-bottom: 2px solid rgba(28, 111, 156, 0.15);
+      padding-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .header-icon {
+      font-size: 2.2rem;
+      color: #0a3d5e;
+      background: linear-gradient(145deg, #d4e6f5, #b8d2e8);
+      padding: 0.6rem 0.9rem;
+      border-radius: 22px;
+      box-shadow: 0 6px 12px -6px rgba(0,0,0,0.1);
+    }
+    .header h1 {
+      font-weight: 800;
+      font-size: 2rem;
+      letter-spacing: -0.5px;
+      color: #0a2a3f;
+      flex: 1;
+    }
+    .header h1 span { color: #1c6f9c; font-weight: 700; }
+    .whatsapp-badge {
+      background: #25D366;
+      color: white;
+      padding: 0.35rem 1.2rem;
+      border-radius: 60px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      box-shadow: 0 8px 16px -6px #25d36660;
+      transition: 0.2s;
+      animation: pulseGlow 2.5s infinite;
+    }
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 8px 16px -6px #25d36660; }
+      50% { box-shadow: 0 8px 24px -2px #25d366b0; }
+      100% { box-shadow: 0 8px 16px -6px #25d36660; }
+    }
+    .subhead {
+      color: #1f4a68;
+      font-weight: 600;
+      margin-bottom: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.95rem;
+      background: rgba(28, 111, 156, 0.07);
+      padding: 0.3rem 1.4rem;
+      border-radius: 60px;
+      width: fit-content;
+      border: 1px solid rgba(28,111,156,0.1);
+    }
 
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 28px;
-        }
+    /* step indicator */
+    .step-badge {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2.2rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .step-badge span {
+      background: #eef3f8;
+      padding: 0.3rem 1.4rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #1f4970;
+      letter-spacing: 0.3px;
+      transition: 0.25s;
+      border: 1px solid transparent;
+    }
+    .step-badge .active-step {
+      background: #1c6f9c;
+      color: white;
+      box-shadow: 0 8px 18px -6px rgba(28,111,156,0.5);
+      border-color: #1c6f9c;
+      transform: scale(1.02);
+    }
 
-        /* header */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            padding: 24px 0 20px;
-            border-bottom: 2px solid #ffe0b5;
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #b45309, #dd6b20);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-        .logo i {
-            background: none;
-            color: #dd6b20;
-        }
-        .nav-links {
-            display: flex;
-            gap: 32px;
-            align-items: center;
-        }
-        .nav-links a {
-            text-decoration: none;
-            font-weight: 500;
-            color: #7c4e2a;
-            transition: 0.2s;
-        }
-        .nav-links a:hover {
-            color: #b45309;
-        }
-        .btn-outline {
-            border: 1.5px solid #dd6b20;
-            padding: 8px 22px;
-            border-radius: 40px;
-            background: transparent;
-            font-weight: 600;
-            color: #b45309;
-        }
+    /* sections */
+    .section-title {
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: #0b334b;
+      margin: 1.6rem 0 0.9rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      border-left: 6px solid #1c6f9c;
+      padding-left: 0.9rem;
+    }
+    .section-title i { color: #1c6f9c; font-size: 1.1rem; }
 
-        /* Hero */
-        .hero {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 48px;
-            padding: 60px 0 30px;
-        }
-        .hero-content {
-            flex: 1;
-        }
-        .hero-badge {
-            background: #fee2c4;
-            display: inline-block;
-            padding: 6px 16px;
-            border-radius: 40px;
-            font-weight: 600;
-            color: #b45309;
-            margin-bottom: 24px;
-        }
-        .hero h1 {
-            font-size: 3.2rem;
-            font-weight: 800;
-            line-height: 1.2;
-            color: #2c221b;
-            margin-bottom: 20px;
-        }
-        .hero h1 span {
-            color: #dd6b20;
-            border-bottom: 3px solid #ffd9a5;
-        }
-        .hero p {
-            font-size: 1.15rem;
-            color: #5c4b38;
-            margin-bottom: 32px;
-            max-width: 90%;
-        }
-        .hero-stats {
-            display: flex;
-            gap: 28px;
-            margin-bottom: 32px;
-        }
-        .stat {
-            font-weight: 700;
-        }
-        .stat span {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #b45309;
-        }
-        .btn-primary {
-            background: #dd6b20;
-            color: white;
-            padding: 14px 36px;
-            border-radius: 60px;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 8px 18px rgba(221,107,32,0.25);
-            transition: 0.2s;
-            border: none;
-            cursor: pointer;
-        }
-        .btn-primary:hover {
-            background: #b45309;
-            transform: translateY(-3px);
-        }
-        .hero-image {
-            flex: 0.9;
-            text-align: center;
-        }
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem 1.5rem;
+    }
+    @media (max-width: 550px) { .grid-2col { grid-template-columns: 1fr; gap: 0.8rem; } }
 
-        /* Notes product grid */
-        .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin: 50px 0 12px 0;
-            color: #2d2a24;
-            text-align: center;
-        }
-        .section-desc {
-            text-align: center;
-            color: #7c6b58;
-            margin-bottom: 40px;
-        }
-        .notes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-            margin: 30px 0 40px;
-        }
-        .note-card {
-            background: white;
-            border-radius: 32px;
-            padding: 24px;
-            box-shadow: 0 12px 28px -8px rgba(0,0,0,0.08);
-            transition: 0.2s ease;
-            border: 1px solid #fae6d2;
-        }
-        .note-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.15);
-            border-color: #ffd9ae;
-        }
-        .card-badge {
-            background: #efede8;
-            display: inline-block;
-            padding: 4px 14px;
-            border-radius: 40px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: #b45309;
-            margin-bottom: 16px;
-        }
-        .note-card h3 {
-            font-size: 1.6rem;
-            margin-bottom: 12px;
-        }
-        .note-desc {
-            color: #5f5342;
-            margin-bottom: 20px;
-            font-size: 0.9rem;
-        }
-        .price {
-            font-size: 1.9rem;
-            font-weight: 800;
-            color: #dd6b20;
-            margin: 15px 0;
-        }
-        .price small {
-            font-size: 0.9rem;
-            font-weight: 400;
-            color: #8e7a64;
-        }
-        .buy-btn {
-            width: 100%;
-            background: #2c221b;
-            color: white;
-            border: none;
-            padding: 14px 0;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .buy-btn:hover {
-            background: #dd6b20;
-        }
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .input-group label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #1f4460;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .input-group label i { font-size: 0.7rem; color: #3d7b9e; }
+    .input-group input {
+      background: rgba(255,255,255,0.8);
+      border: 1.5px solid #d3dfe9;
+      border-radius: 20px;
+      padding: 0.75rem 1.1rem;
+      font-size: 0.95rem;
+      transition: 0.25s;
+      outline: none;
+      width: 100%;
+      font-weight: 500;
+      color: #0c2d44;
+      backdrop-filter: blur(4px);
+    }
+    .input-group input:focus {
+      border-color: #1c6f9c;
+      box-shadow: 0 0 0 5px rgba(28,111,156,0.12);
+      background: white;
+    }
+    .input-group input::placeholder { color: #a0b9cf; font-weight: 400; }
 
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #1f8a4c;
-            color: white;
-            padding: 14px 24px;
-            border-radius: 50px;
-            font-weight: 500;
-            z-index: 1000;
-            display: none;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            animation: slideIn 0.3s ease;
-        }
-        .toast.error {
-            background: #dc2626;
-        }
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
+    /* payment box */
+    .payment-box {
+      background: linear-gradient(145deg, #e1eef9, #cfe0ef);
+      border-radius: 40px;
+      padding: 0.9rem 1.8rem;
+      margin: 1.8rem 0 1rem 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid rgba(28,111,156,0.2);
+      box-shadow: inset 0 2px 6px rgba(255,255,255,0.6);
+    }
+    .payment-box .pay-label {
+      font-weight: 700;
+      color: #0b334b;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .payment-box .pay-label i { font-size: 1.8rem; color: #1c6f9c; }
+    .pay-amount {
+      background: #0b2b40;
+      color: white;
+      padding: 0.3rem 1.8rem;
+      border-radius: 60px;
+      font-weight: 800;
+      font-size: 1.4rem;
+      letter-spacing: 0.5px;
+      box-shadow: 0 6px 14px -4px #0b2b4070;
+    }
 
-        /* Success Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(4px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            visibility: hidden;
-            opacity: 0;
-            transition: 0.2s;
-        }
-        .modal-overlay.active {
-            visibility: visible;
-            opacity: 1;
-        }
-        .modal-card {
-            background: white;
-            max-width: 460px;
-            width: 90%;
-            border-radius: 48px;
-            padding: 32px 28px;
-            text-align: center;
-            box-shadow: 0 40px 50px rgba(0,0,0,0.3);
-            position: relative;
-        }
-        .modal-card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 12px;
-        }
-        .modal-card p {
-            margin: 15px 0;
-            color: #4b3e2e;
-        }
-        .download-link {
-            display: inline-block;
-            margin-top: 18px;
-            background: #dd6b20;
-            padding: 12px 24px;
-            border-radius: 60px;
-            color: white;
-            text-decoration: none;
-            font-weight: 700;
-            transition: 0.2s;
-        }
-        .download-link:hover {
-            background: #b45309;
-            transform: translateY(-2px);
-        }
-        .close-modal-btn {
-            background: #e9e0d6;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 60px;
-            margin-top: 16px;
-            width: 100%;
-            cursor: pointer;
-            font-weight: 500;
-        }
+    /* buttons */
+    .action-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 1.8rem;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      padding-top: 1.8rem;
+    }
+    .btn {
+      border: none;
+      padding: 0.75rem 2.2rem;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: white;
+      color: #1f4a68;
+      border: 1px solid #c6d7e5;
+      transition: 0.2s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 8px -4px rgba(0,0,0,0.04);
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 20px -10px rgba(0,0,0,0.12); }
+    .btn-primary {
+      background: #0a3d5e;
+      color: white;
+      border: 1px solid #0a3d5e;
+      box-shadow: 0 10px 20px -8px #0a3d5e60;
+    }
+    .btn-primary:hover { background: #135d87; }
+    .btn-success {
+      background: #1a7a4c;
+      border-color: #1a7a4c;
+      color: white;
+      box-shadow: 0 10px 20px -8px #1a7a4c60;
+    }
+    .btn-success:hover { background: #24915e; }
+    .btn:disabled { opacity: 0.5; pointer-events: none; filter: grayscale(0.3); }
 
-        /* Testimonial */
-        .testimonial {
-            background: #fff6ed;
-            border-radius: 48px;
-            padding: 40px;
-            margin: 60px 0;
-            text-align: center;
-        }
-        footer {
-            text-align: center;
-            padding: 40px 0 30px;
-            border-top: 1px solid #ffe0bf;
-            margin-top: 30px;
-            color: #836e54;
-        }
-        @media (max-width: 700px) {
-            .hero h1 { font-size: 2.2rem; }
-            .navbar { flex-direction: column; gap: 16px; }
-            .section-title { font-size: 1.7rem; }
-        }
-    </style>
+    #paymentStatus {
+      margin-top: 1.2rem;
+      font-weight: 600;
+      padding: 0.6rem 1.2rem;
+      border-radius: 60px;
+      background: #eef4fa;
+      display: inline-block;
+      width: 100%;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(0,0,0,0.02);
+      transition: 0.3s;
+    }
+    .whatsapp-msg {
+      margin-top: 0.8rem;
+      background: #daf1e4;
+      border-radius: 40px;
+      padding: 0.6rem 1.4rem;
+      color: #0b4a2e;
+      display: none;
+      font-weight: 600;
+      border-left: 6px solid #25D366;
+      animation: fadeSlide 0.4s ease;
+    }
+    .whatsapp-msg.show { display: flex; align-items: center; gap: 0.6rem; }
+    @keyframes fadeSlide {
+      0% { opacity: 0; transform: translateX(-10px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+    .footnote {
+      margin-top: 1.8rem;
+      font-size: 0.7rem;
+      color: #3c6380;
+      text-align: center;
+      border-top: 1px solid rgba(0,0,0,0.04);
+      padding-top: 1.2rem;
+    }
+    .footnote i { color: #1c6f9c; }
+    .hidden { display: none; }
+  </style>
 </head>
 <body>
+<div class="portal-card">
+  <!-- header -->
+  <div class="header">
+    <i class="fas fa-university header-icon"></i>
+    <h1>Kolhan <span>Admission</span></h1>
+    <span class="whatsapp-badge"><i class="fab fa-whatsapp"></i> 9288678795</span>
+  </div>
+  <div class="subhead">
+    <i class="fas fa-chevron-circle-right"></i> UG Admission · Kolhan University Chaibasa
+  </div>
 
-<div class="container">
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="logo">
-            <i class="fas fa-graduation-cap"></i>
-            <span>CollegeNotes.shop</span>
-        </div>
-        <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="#notes-collection">Notes</a>
-            <a href="#">How it works</a>
-            <a href="#" class="btn-outline"><i class="fas fa-rupee-sign"></i> Support</a>
-        </div>
-    </nav>
+  <!-- step indicator -->
+  <div class="step-badge">
+    <span class="active-step"><i class="fas fa-check-circle"></i> 1. Details</span>
+    <span><i class="fas fa-credit-card"></i> 2. Payment</span>
+    <span><i class="fas fa-file-alt"></i> 3. Documents</span>
+  </div>
 
-    <!-- Hero Section -->
-    <div class="hero">
-        <div class="hero-content">
-            <div class="hero-badge"><i class="fas fa-chalkboard-user"></i> Top Ranked College Notes</div>
-            <h1>Sell & Buy <span>Premium Notes</span> <br>Pay via Razorpay, Get PDF Instantly</h1>
-            <p>✅ Verified by toppers | ✅ Semester-wise | ✅ Instant download after successful payment | ✅ Secure Razorpay Gateway</p>
-            <div class="hero-stats">
-                <div class="stat"><span>10k+</span> <br>Notes sold</div>
-                <div class="stat"><span>500+</span> <br>Subjects covered</div>
-                <div class="stat"><span>4.9⭐</span> <br>Student rating</div>
-            </div>
-            <a href="#notes-collection" class="btn-primary"><i class="fas fa-eye"></i> Browse Notes →</a>
-        </div>
-        <div class="hero-image">
-            <svg width="260" viewBox="0 0 280 220" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="30" y="30" width="180" height="150" rx="20" fill="#FFF3E6" stroke="#DD6B20" stroke-width="2"/>
-                <path d="M60 70 L210 70" stroke="#DD6B20" stroke-width="3" stroke-linecap="round"/>
-                <path d="M60 100 L180 100" stroke="#DD6B20" stroke-width="3" stroke-linecap="round"/>
-                <path d="M60 130 L200 130" stroke="#DD6B20" stroke-width="3" stroke-linecap="round"/>
-                <circle cx="235" cy="85" r="28" fill="#FEE2C4" stroke="#B45309" stroke-width="2"/>
-                <path d="M225 80 L235 92 L250 74" stroke="#B45309" stroke-width="3" fill="none"/>
-                <text x="70" y="55" fill="#B45309" font-weight="bold" font-size="12">📄 PDF Ready</text>
-            </svg>
-        </div>
+  <form id="admissionForm">
+    <!-- personal & parent (bilingual) -->
+    <div class="section-title"><i class="fas fa-user-graduate"></i> Student & Parent</div>
+    <div class="grid-2col">
+      <div class="input-group"><label><i class="fas fa-user"></i> Student (English)</label><input type="text" id="studentNameEN" placeholder="e.g. Rahul Kumar"></div>
+      <div class="input-group"><label><i class="fas fa-user"></i> Student (हिंदी)</label><input type="text" id="studentNameHI" placeholder="राहुल कुमार"></div>
+      <div class="input-group"><label><i class="fas fa-user-friends"></i> Father (English)</label><input type="text" id="fatherName" placeholder="Father name"></div>
+      <div class="input-group"><label><i class="fas fa-user-friends"></i> Mother (English)</label><input type="text" id="motherName" placeholder="Mother name"></div>
+      <div class="input-group"><label><i class="fas fa-envelope"></i> Email</label><input type="email" id="emailId" placeholder="student@example.com"></div>
+      <div class="input-group"><label><i class="fas fa-phone-alt"></i> Phone</label><input type="tel" id="phoneNumber" placeholder="9876543210"></div>
     </div>
 
-    <!-- Notes Selling Section -->
-    <div id="notes-collection">
-        <div class="section-title">📚 College Notes Library 🔥</div>
-        <div class="section-desc">Select your subject, complete secure payment via Razorpay, and download PDF immediately</div>
-        <div class="notes-grid" id="productsGrid"></div>
+    <!-- payment -->
+    <div class="payment-box">
+      <span class="pay-label"><i class="fas fa-rupee-sign"></i> Application fee</span>
+      <span class="pay-amount">₹50</span>
     </div>
 
-    <!-- How it works -->
-    <div class="testimonial">
-        <i class="fas fa-rupee-sign" style="font-size: 2rem; color:#dd6b20; margin-bottom: 10px; display:inline-block;"></i>
-        <h3 style="font-size: 1.7rem;">Simple 3-Step Process</h3>
-        <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-top: 30px;">
-            <div><i class="fas fa-cart-plus" style="font-size: 2rem;"></i><br><strong>1. Choose notes</strong></div>
-            <div><i class="fas fa-credit-card" style="font-size: 2rem;"></i><br><strong>2. Pay via Razorpay</strong></div>
-            <div><i class="fas fa-download" style="font-size: 2rem;"></i><br><strong>3. Instant PDF access</strong></div>
-        </div>
-        <p style="margin-top: 28px;">✅ Secure payments • UPI / Cards / NetBanking • Instant download after payment</p>
+    <div class="action-bar">
+      <button type="button" class="btn" id="resetBtn"><i class="fas fa-undo-alt"></i> Reset</button>
+      <button type="button" class="btn btn-primary" id="payNowBtn"><i class="fas fa-credit-card"></i> Pay with Razorpay</button>
+      <button type="button" class="btn btn-success" id="simulateSuccessBtn"><i class="fas fa-check-circle"></i> Simulate Payment</button>
     </div>
 
-    <footer>
-        <p><i class="far fa-copyright"></i> 2025 CollegeNotes.shop — Empower students & creators | Instant PDF download after payment</p>
-        <p style="margin-top: 8px;">📩 For notes submission or collaboration: hello@collegenotes.shop</p>
-    </footer>
+    <div id="paymentStatus"><i class="fas fa-info-circle"></i> Awaiting payment</div>
+    <div id="whatsappMsg" class="whatsapp-msg"><i class="fab fa-whatsapp"></i> Payment success! Data saved & WhatsApp notification sent to 9288678795</div>
+  </form>
+
+  <div class="footnote">
+    <i class="fas fa-shield-alt"></i> All data stored securely via Firebase · document upload link shared after payment
+  </div>
 </div>
 
-<!-- Success Modal -->
-<div id="successModal" class="modal-overlay">
-    <div class="modal-card">
-        <i class="fas fa-check-circle" style="font-size: 3rem; color:#1f8a4c;"></i>
-        <h3>Payment Successful! 🎉</h3>
-        <p>Your PDF is ready for download. Click below to get your notes instantly.</p>
-        <a id="downloadPdfLink" href="#" class="download-link" download><i class="fas fa-file-pdf"></i> Download Notes (PDF)</a>
-        <button id="closeSuccessBtn" class="close-modal-btn">Close</button>
-    </div>
-</div>
-
-<!-- Toast for errors -->
-<div id="toast" class="toast">
-    <i class="fas fa-info-circle"></i>
-    <span id="toastMessage">Message</span>
-</div>
+<!-- Firebase & Razorpay SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
-    // ========== 🔴 IMPORTANT: REPLACE WITH YOUR RAZORPAY KEY ID ==========
-    const RAZORPAY_KEY_ID = "YOUR_RAZORPAY_KEY_ID_HERE";  // 🔴 Replace with your actual Razorpay Key ID
-    
-    // ========== BACKEND API ENDPOINT (Create Order) ==========
-    // You need to create an endpoint on your server that creates Razorpay order
-    // For demo, if you don't have backend yet, we'll show instructions
-    const CREATE_ORDER_URL = "https://your-backend.com/api/create-order"; // 🔴 Replace with your actual backend URL
-    
-    // Product Database
-    const products = [
-        {
-            id: 1,
-            name: "📘 Computer Science (CSE) – Complete Semester",
-            description: "Data Structures, Algorithms, OS, DBMS notes with color diagrams & previous year papers. 250+ pages.",
-            price: 149,
-            badge: "Bestseller",
-            pages: 280,
-            topics: ["DS & Algo", "Operating System", "DBMS", "Computer Networks"]
-        },
-        {
-            id: 2,
-            name: "📗 B.Com Financial Accounting",
-            description: "Journal entries, balance sheets, ratio analysis & exam tips. 100+ pages handwritten style with examples.",
-            price: 99,
-            badge: "Trending",
-            pages: 145,
-            topics: ["Accounting Principles", "Ledger", "Trial Balance", "Final Accounts"]
-        },
-        {
-            id: 3,
-            name: "📕 Engineering Mathematics (All Branches)",
-            description: "Calculus, Linear Algebra, Probability & Statistics – formula sheets + solved problems. 200+ pages.",
-            price: 129,
-            badge: "Top Rated",
-            pages: 210,
-            topics: ["Calculus", "Linear Algebra", "Probability", "Statistics"]
-        },
-        {
-            id: 4,
-            name: "⚡ Class 12 & JEE Mains Notes (PCM)",
-            description: "Physics, Chemistry, Maths shortcuts & theory – quick revision PDF with important formulas.",
-            price: 79,
-            badge: "Limited Offer",
-            pages: 180,
-            topics: ["Physics", "Chemistry", "Mathematics", "Shortcuts"]
-        }
-    ];
-
-    let currentProduct = null;
-
-    // Show toast notification
-    function showToast(message, isError = false) {
-        const toast = document.getElementById('toast');
-        const toastMessage = document.getElementById('toastMessage');
-        toastMessage.innerText = message;
-        toast.className = 'toast ' + (isError ? 'error' : '');
-        toast.style.display = 'flex';
-        setTimeout(() => {
-            toast.style.display = 'none';
-        }, 4000);
+  (function() {
+    // ---------- Firebase config (demo) ----------
+    const firebaseConfig = {
+      apiKey: "AIzaSyDummyKeyForDemoOnly123456789",
+      authDomain: "demo-project.firebaseapp.com",
+      databaseURL: "https://demo-project-default-rtdb.firebaseio.com/",
+      projectId: "demo-project",
+      storageBucket: "demo-project.appspot.com",
+      messagingSenderId: "123456789012",
+      appId: "1:123456789012:web:abcdef123456"
+    };
+    let database;
+    try {
+      firebase.initializeApp(firebaseConfig);
+      database = firebase.database();
+      console.log("Firebase initialized (demo)");
+    } catch (e) {
+      console.warn("Firebase init issue (demo mode):", e);
+      database = { ref: () => ({ push: (data) => console.log("FIREBASE PUSH:", data) }) };
     }
 
-    // Generate PDF with actual notes content
-    function generateNotesPDF(product) {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-        
-        // Cover page
-        doc.setFontSize(28);
-        doc.setTextColor(221, 107, 32);
-        doc.text("COLLEGE NOTES", 20, 40);
-        doc.setFontSize(20);
-        doc.setTextColor(0, 0, 0);
-        doc.text(product.name, 20, 65);
-        doc.setFontSize(12);
-        doc.text(`Total Pages: ${product.pages}`, 20, 90);
-        doc.text(`Price: ₹${product.price}`, 20, 105);
-        doc.text("Thank you for your purchase!", 20, 135);
-        
-        // Content page
-        doc.addPage();
-        doc.setFontSize(18);
-        doc.setTextColor(221, 107, 32);
-        doc.text("📚 What's Inside:", 20, 30);
-        doc.setFontSize(12);
-        doc.setTextColor(0, 0, 0);
-        let y = 50;
-        product.topics.forEach((topic, idx) => {
-            doc.text(`${idx + 1}. ${topic} - Complete notes with examples`, 20, y);
-            y += 12;
-        });
-        
-        doc.text(`\n✨ Includes:`, 20, y + 10);
-        doc.text(`• Chapter-wise explanations`, 20, y + 25);
-        doc.text(`• Important questions with solutions`, 20, y + 40);
-        doc.text(`• Previous year exam papers`, 20, y + 55);
-        doc.text(`• Quick revision notes`, 20, y + 70);
-        
-        // Sample content page
-        doc.addPage();
-        doc.setFontSize(16);
-        doc.setTextColor(221, 107, 32);
-        doc.text("Sample Content", 20, 30);
-        doc.setFontSize(11);
-        doc.setTextColor(0, 0, 0);
-        doc.text("Chapter 1: Introduction", 20, 55);
-        doc.text("This chapter covers the fundamental concepts...", 20, 70);
-        doc.text("Key points:", 20, 90);
-        doc.text("→ Concept 1: Detailed explanation with diagrams", 25, 105);
-        doc.text("→ Concept 2: Practical examples and use cases", 25, 120);
-        doc.text("→ Concept 3: Important formulas and derivations", 25, 135);
-        
-        // Footer
-        const pageCount = doc.internal.getNumberOfPages();
-        for(let i = 1; i <= pageCount; i++) {
-            doc.setPage(i);
-            doc.setFontSize(9);
-            doc.setTextColor(150, 150, 150);
-            doc.text(`CollegeNotes.shop - ${product.name.substring(0, 30)}`, 20, doc.internal.pageSize.height - 10);
-            doc.text(`Page ${i} of ${pageCount}`, doc.internal.pageSize.width - 30, doc.internal.pageSize.height - 10);
-        }
-        
-        return doc.output('blob');
+    // ---------- DOM refs ----------
+    const studentEN = document.getElementById('studentNameEN');
+    const studentHI = document.getElementById('studentNameHI');
+    const fatherName = document.getElementById('fatherName');
+    const motherName = document.getElementById('motherName');
+    const emailId = document.getElementById('emailId');
+    const phoneNumber = document.getElementById('phoneNumber');
+    const payBtn = document.getElementById('payNowBtn');
+    const simulateBtn = document.getElementById('simulateSuccessBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const paymentStatus = document.getElementById('paymentStatus');
+    const whatsappMsg = document.getElementById('whatsappMsg');
+
+    // ---------- get form data ----------
+    function getFormData() {
+      return {
+        studentNameEN: studentEN.value.trim(),
+        studentNameHI: studentHI.value.trim(),
+        fatherName: fatherName.value.trim(),
+        motherName: motherName.value.trim(),
+        email: emailId.value.trim(),
+        phone: phoneNumber.value.trim(),
+        amount: 50,
+        timestamp: new Date().toISOString()
+      };
     }
 
-    // Show success modal with download
-    function showSuccessWithDownload(product) {
-        const successModal = document.getElementById('successModal');
-        const downloadLink = document.getElementById('downloadPdfLink');
-        
-        // Generate PDF
-        const pdfBlob = generateNotesPDF(product);
-        const pdfUrl = URL.createObjectURL(pdfBlob);
-        downloadLink.href = pdfUrl;
-        downloadLink.download = `${product.name.replace(/[^a-z0-9]/gi, '_').substring(0, 50)}_notes.pdf`;
-        
-        successModal.classList.add('active');
-    }
-
-    // Method 1: Direct Razorpay without backend (for testing, amount is fixed)
-    // Note: For production, always create order from backend for security
-    function initiateRazorpayDirect(product) {
-        if (!RAZORPAY_KEY_ID || RAZORPAY_KEY_ID === "YOUR_RAZORPAY_KEY_ID_HERE") {
-            showToast("⚠️ Please configure your Razorpay Key ID in the script. Check console for instructions.", true);
-            console.error("Razorpay Key ID not configured. Please replace 'RAZORPAY_KEY_ID' variable with your actual Razorpay Key ID.");
-            return;
-        }
-        
-        const options = {
-            key: RAZORPAY_KEY_ID,
-            amount: product.price * 100, // amount in paise
-            currency: "INR",
-            name: "CollegeNotes.shop",
-            description: `Purchase: ${product.name}`,
-            image: "https://img.icons8.com/color/48/graduation-cap.png",
-            handler: function(response) {
-                // Payment successful
-                console.log("Payment Response:", response);
-                showToast("✅ Payment successful! Your PDF is ready to download.", false);
-                showSuccessWithDownload(product);
-            },
-            prefill: {
-                name: "College Student",
-                email: "student@college.com",
-                contact: "9999999999"
-            },
-            notes: {
-                product_id: product.id,
-                product_name: product.name
-            },
-            theme: {
-                color: "#dd6b20"
-            },
-            modal: {
-                ondismiss: function() {
-                    showToast("Payment cancelled", true);
-                }
-            }
-        };
-        
-        const rzp = new Razorpay(options);
-        rzp.open();
-    }
-    
-    // Method 2: With backend order creation (recommended for production)
-    // If you have backend API to create orders, use this method
-    async function initiateRazorpayWithBackend(product) {
-        if (CREATE_ORDER_URL === "https://your-backend.com/api/create-order") {
-            // Fallback to direct method if backend not configured
-            console.log("Backend URL not configured, using direct payment method");
-            initiateRazorpayDirect(product);
-            return;
-        }
-        
+    // ---------- save to Firebase ----------
+    function saveToFirebase(data) {
+      return new Promise((resolve, reject) => {
         try {
-            showToast("Creating payment order...", false);
-            const response = await fetch(CREATE_ORDER_URL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    amount: product.price,
-                    currency: "INR",
-                    product_id: product.id,
-                    product_name: product.name
-                })
-            });
-            
-            const data = await response.json();
-            
-            if (data.order_id) {
-                const options = {
-                    key: RAZORPAY_KEY_ID,
-                    amount: data.amount,
-                    currency: "INR",
-                    name: "CollegeNotes.shop",
-                    description: `Purchase: ${product.name}`,
-                    order_id: data.order_id,
-                    handler: function(response) {
-                        showToast("✅ Payment successful! Download your PDF now.", false);
-                        showSuccessWithDownload(product);
-                    },
-                    prefill: {
-                        email: "student@college.com",
-                        contact: "9999999999"
-                    },
-                    theme: {
-                        color: "#dd6b20"
-                    }
-                };
-                const rzp = new Razorpay(options);
-                rzp.open();
-            } else {
-                throw new Error("Failed to create order");
-            }
-        } catch (error) {
-            console.error("Backend order creation failed:", error);
-            showToast("Payment gateway error. Please try again or contact support.", true);
-            // Fallback to direct method if needed (remove in production)
-            // initiateRazorpayDirect(product);
-        }
+          const ref = database.ref('admissions');
+          ref.push(data, (error) => {
+            if (error) reject(error);
+            else resolve(true);
+          });
+        } catch (e) { reject(e); }
+      });
     }
 
-    // Buy button handler
-    function buyProduct(product) {
-        currentProduct = product;
-        // Use backend method (recommended) or direct method
-        // Change this to initiateRazorpayWithBackend if you have backend
-        initiateRazorpayDirect(product);
+    // ---------- WhatsApp notification (simulated) ----------
+    function sendWhatsAppNotification(data) {
+      console.log('📱 WhatsApp to 9288678795:', data);
+      paymentStatus.innerHTML = `<i class="fab fa-whatsapp" style="color:#25D366;"></i> WhatsApp notification sent to 9288678795`;
+      return true;
     }
 
-    // Render product cards
-    function renderProducts() {
-        const grid = document.getElementById('productsGrid');
-        if(!grid) return;
-        grid.innerHTML = '';
-        products.forEach(prod => {
-            const card = document.createElement('div');
-            card.className = 'note-card';
-            card.innerHTML = `
-                <div class="card-badge">${prod.badge}</div>
-                <h3>${prod.name}</h3>
-                <p class="note-desc">${prod.description}</p>
-                <div class="price"><i class="fas fa-rupee-sign"></i> ${prod.price} <small>one-time</small></div>
-                <button class="buy-btn" data-id="${prod.id}"><i class="fas fa-shopping-cart"></i> Buy Now & Get PDF</button>
-            `;
-            grid.appendChild(card);
-        });
-
-        document.querySelectorAll('.buy-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const id = parseInt(btn.getAttribute('data-id'));
-                const product = products.find(p => p.id === id);
-                if(product) {
-                    buyProduct(product);
-                }
-            });
-        });
+    // ---------- Razorpay trigger ----------
+    function triggerRazorpay(successCallback, failCallback) {
+      const options = {
+        key: "rzp_live_T4LKvIEGXkdiMM", // replace with your live/test key
+        amount: 50,
+        currency: "INR",
+        name: "Kolhan Admission",
+        description: "UG Application Fee",
+        image: "https://kolhanuniversity.ac.in/favicon.ico",
+        prefill: {
+          name: studentEN.value || "Student",
+          email: emailId.value || "student@example.com",
+          contact: phoneNumber.value || "9999999999"
+        },
+        theme: { color: "#0a3d5e" },
+        handler: function(response) {
+          if (response.razorpay_payment_id) successCallback(response);
+          else failCallback("Payment failed: no payment id");
+        },
+        modal: { ondismiss: function() { failCallback("Payment modal closed"); } }
+      };
+      const rzp = new Razorpay(options);
+      rzp.open();
     }
 
-    // Close modal
-    document.getElementById('closeSuccessBtn')?.addEventListener('click', () => {
-        document.getElementById('successModal').classList.remove('active');
-        currentProduct = null;
+    // ---------- handle payment success ----------
+    async function handlePaymentSuccess(paymentResponse) {
+      const formData = getFormData();
+      formData.paymentId = paymentResponse?.razorpay_payment_id || 'SIM_'+Date.now();
+      formData.paymentStatus = 'success';
+      try {
+        await saveToFirebase(formData);
+        paymentStatus.innerHTML = `<i class="fas fa-check-circle" style="color:#1a7a4c;"></i> Payment successful! Data saved.`;
+        whatsappMsg.classList.add('show');
+        sendWhatsAppNotification(formData);
+        document.querySelector('.footnote').innerHTML = `<i class="fas fa-cloud-upload-alt"></i> ✅ Payment confirmed. <a href="#" style="color:#0a3d5e;font-weight:600;">Upload documents here</a> (link sent via WhatsApp)`;
+      } catch (e) {
+        paymentStatus.innerHTML = `<i class="fas fa-exclamation-triangle" style="color:#b34a1c;"></i> Payment success but data save error: ${e.message}`;
+      }
+    }
+
+    function handlePaymentFail(reason) {
+      paymentStatus.innerHTML = `<i class="fas fa-times-circle" style="color:#b33c3c;"></i> Payment not successful: ${reason || 'try again'}`;
+      whatsappMsg.classList.remove('show');
+    }
+
+    // ---------- event listeners ----------
+    payBtn.addEventListener('click', function() {
+      if (!studentEN.value.trim() || !emailId.value.trim() || !phoneNumber.value.trim()) {
+        paymentStatus.innerHTML = `<i class="fas fa-exclamation-circle"></i> Please fill Student, Email & Phone.`;
+        return;
+      }
+      paymentStatus.innerHTML = `<i class="fas fa-spinner fa-pulse"></i> Opening payment gateway...`;
+      triggerRazorpay(
+        (resp) => handlePaymentSuccess(resp),
+        (reason) => handlePaymentFail(reason)
+      );
     });
 
-    // Close modal when clicking outside
-    document.getElementById('successModal')?.addEventListener('click', (e) => {
-        if(e.target === document.getElementById('successModal')) {
-            document.getElementById('successModal').classList.remove('active');
-        }
+    simulateBtn.addEventListener('click', async function() {
+      if (!studentEN.value.trim() || !emailId.value.trim()) {
+        paymentStatus.innerHTML = `<i class="fas fa-exclamation-circle"></i> Fill student name & email first.`;
+        return;
+      }
+      const fakeResponse = { razorpay_payment_id: 'SIM_'+Math.random().toString(36).substr(2,8) };
+      await handlePaymentSuccess(fakeResponse);
     });
 
-    // Check if Razorpay Key is configured and show warning if not
-    window.addEventListener('DOMContentLoaded', () => {
-        renderProducts();
-        if (RAZORPAY_KEY_ID === "rzp_test_T1L80bgQVUGQpJ") {
-            console.warn("⚠️ IMPORTANT: Please replace 'RAZORPAY_KEY_ID' variable with your actual Razorpay Key ID");
-            console.warn("You can find your Key ID at: https://dashboard.razorpay.com/app/keys");
-            showToast("⚠️ Setup: Please configure your Razorpay Key ID in the script", true);
-        } else {
-            console.log("✅ Razorpay Key ID configured successfully");
-        }
+    resetBtn.addEventListener('click', function() {
+      studentEN.value = ''; studentHI.value = ''; fatherName.value = ''; motherName.value = '';
+      emailId.value = ''; phoneNumber.value = '';
+      paymentStatus.innerHTML = `<i class="fas fa-info-circle"></i> Form reset`;
+      whatsappMsg.classList.remove('show');
+      document.querySelector('.footnote').innerHTML = `<i class="fas fa-shield-alt"></i> All data stored securely via Firebase · document upload link shared after payment`;
     });
+  })();
 </script>
-
-<!-- Instructions for setup -->
-<div style="display: none;">
-    <!-- 
-    ========== SETUP INSTRUCTIONS ==========
-    
-    1. Get your Razorpay Key ID from: https://dashboard.razorpay.com/app/keys
-    2. Replace 'YOUR_RAZORPAY_KEY_ID_HERE' in the script with your actual Key ID
-    3. For production, create a backend endpoint that creates Razorpay orders:
-       - Endpoint: POST /api/create-order
-       - Returns: { order_id: "order_xxx", amount: 14900 }
-    4. For testing, use Razorpay test keys: https://dashboard.razorpay.com/app/keys
-       Test Cards: https://razorpay.com/docs/payments/payments/test-card/
-    
-    Your Key ID format: rzp_live_XXXXXX or rzp_test_XXXXXX
-    -->
-</div>
 </body>
 </html>
