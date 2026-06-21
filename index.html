@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kolhan University · Admission</title>
-  <!-- Font Awesome & Google Fonts -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
   <style>
@@ -21,24 +20,17 @@
       justify-content: center;
       align-items: center;
       padding: 1.8rem;
-      animation: bgFade 1s ease;
-    }
-    @keyframes bgFade {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
     }
     .portal-card {
       max-width: 780px;
       width: 100%;
       background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
       border-radius: 56px;
-      box-shadow: 0 40px 80px -16px rgba(0, 30, 50, 0.35), 0 8px 28px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 40px 80px -16px rgba(0, 30, 50, 0.35);
       padding: 2.4rem 2.8rem;
       border: 1px solid rgba(255, 255, 255, 0.6);
-      transition: all 0.3s ease;
-      animation: slideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: slideUp 0.7s ease;
     }
     @keyframes slideUp {
       0% { transform: translateY(30px); opacity: 0; }
@@ -63,16 +55,14 @@
       background: linear-gradient(145deg, #d4e6f5, #b8d2e8);
       padding: 0.6rem 0.9rem;
       border-radius: 22px;
-      box-shadow: 0 6px 12px -6px rgba(0, 0, 0, 0.1);
     }
     .header h1 {
       font-weight: 800;
       font-size: 2rem;
-      letter-spacing: -0.5px;
       color: #0a2a3f;
       flex: 1;
     }
-    .header h1 span { color: #1c6f9c; font-weight: 700; }
+    .header h1 span { color: #1c6f9c; }
     .whatsapp-badge {
       background: #25D366;
       color: white;
@@ -83,7 +73,6 @@
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      box-shadow: 0 8px 16px -6px #25d36660;
       animation: pulseGlow 2.5s infinite;
     }
     @keyframes pulseGlow {
@@ -103,7 +92,6 @@
       padding: 0.3rem 1.4rem;
       border-radius: 60px;
       width: fit-content;
-      border: 1px solid rgba(28, 111, 156, 0.1);
     }
     .step-badge {
       display: flex;
@@ -119,8 +107,6 @@
       font-size: 0.8rem;
       font-weight: 700;
       color: #1f4970;
-      letter-spacing: 0.3px;
-      transition: 0.25s;
       border: 1px solid transparent;
     }
     .step-badge .active-step {
@@ -128,7 +114,6 @@
       color: white;
       box-shadow: 0 8px 18px -6px rgba(28, 111, 156, 0.5);
       border-color: #1c6f9c;
-      transform: scale(1.02);
     }
     .section-title {
       font-weight: 700;
@@ -141,14 +126,14 @@
       border-left: 6px solid #1c6f9c;
       padding-left: 0.9rem;
     }
-    .section-title i { color: #1c6f9c; font-size: 1.1rem; }
+    .section-title i { color: #1c6f9c; }
     .grid-2col {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1rem 1.5rem;
     }
     @media (max-width: 550px) {
-      .grid-2col { grid-template-columns: 1fr; gap: 0.8rem; }
+      .grid-2col { grid-template-columns: 1fr; }
     }
     .input-group {
       display: flex;
@@ -159,7 +144,6 @@
       font-size: 0.78rem;
       font-weight: 700;
       color: #1f4460;
-      letter-spacing: 0.3px;
       display: flex;
       align-items: center;
       gap: 0.3rem;
@@ -176,14 +160,12 @@
       width: 100%;
       font-weight: 500;
       color: #0c2d44;
-      backdrop-filter: blur(4px);
     }
     .input-group input:focus {
       border-color: #1c6f9c;
       box-shadow: 0 0 0 5px rgba(28, 111, 156, 0.12);
       background: white;
     }
-    .input-group input::placeholder { color: #a0b9cf; font-weight: 400; }
     .payment-box {
       background: linear-gradient(145deg, #e1eef9, #cfe0ef);
       border-radius: 40px;
@@ -194,7 +176,6 @@
       align-items: center;
       justify-content: space-between;
       border: 1px solid rgba(28, 111, 156, 0.2);
-      box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.6);
     }
     .payment-box .pay-label {
       font-weight: 700;
@@ -211,8 +192,6 @@
       border-radius: 60px;
       font-weight: 800;
       font-size: 1.4rem;
-      letter-spacing: 0.5px;
-      box-shadow: 0 6px 14px -4px #0b2b4070;
     }
     .action-bar {
       display: flex;
@@ -235,9 +214,8 @@
       background: white;
       color: #1f4a68;
       border: 1px solid #c6d7e5;
-      transition: 0.2s ease;
+      transition: 0.2s;
       cursor: pointer;
-      box-shadow: 0 4px 8px -4px rgba(0, 0, 0, 0.04);
     }
     .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 20px -10px rgba(0, 0, 0, 0.12); }
     .btn-primary {
@@ -262,9 +240,6 @@
       background: #eef4fa;
       display: inline-block;
       width: 100%;
-      backdrop-filter: blur(4px);
-      border: 1px solid rgba(0, 0, 0, 0.02);
-      transition: 0.3s;
     }
     .whatsapp-msg {
       margin-top: 0.8rem;
@@ -275,13 +250,8 @@
       display: none;
       font-weight: 600;
       border-left: 6px solid #25D366;
-      animation: fadeSlide 0.4s ease;
     }
     .whatsapp-msg.show { display: flex; align-items: center; gap: 0.6rem; }
-    @keyframes fadeSlide {
-      0% { opacity: 0; transform: translateX(-10px); }
-      100% { opacity: 1; transform: translateX(0); }
-    }
     .footnote {
       margin-top: 1.8rem;
       font-size: 0.7rem;
@@ -291,12 +261,37 @@
       padding-top: 1.2rem;
     }
     .footnote i { color: #1c6f9c; }
-    .hidden { display: none; }
     #firebaseStatus {
       font-size: 0.7rem;
       margin-top: 0.3rem;
       color: #2a6b3a;
     }
+    .payment-link-box {
+      background: #f8fafc;
+      border: 2px dashed #1c6f9c;
+      border-radius: 20px;
+      padding: 1rem 1.5rem;
+      margin: 1rem 0;
+      display: none;
+      word-break: break-all;
+    }
+    .payment-link-box.show { display: block; }
+    .payment-link-box a {
+      color: #1c6f9c;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+    .copy-btn {
+      background: #e2e8f0;
+      border: none;
+      padding: 0.3rem 1rem;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-left: 0.5rem;
+    }
+    .copy-btn:hover { background: #cbd5e1; }
   </style>
 </head>
 <body>
@@ -354,17 +349,28 @@
         <span class="pay-amount">₹50</span>
       </div>
 
+      <!-- Payment Link Display -->
+      <div id="paymentLinkBox" class="payment-link-box">
+        <i class="fas fa-link" style="color:#1c6f9c;"></i>
+        <strong>Payment Link:</strong><br />
+        <a href="#" id="paymentLink" target="_blank">Click here to pay</a>
+        <button class="copy-btn" onclick="copyPaymentLink()"><i class="fas fa-copy"></i> Copy</button>
+        <p style="font-size:0.8rem;color:#64748b;margin-top:0.3rem;">
+          <i class="fas fa-info-circle"></i> Payment link will open in new tab
+        </p>
+      </div>
+
       <div class="action-bar">
         <button type="button" class="btn" id="resetBtn"><i class="fas fa-undo-alt"></i> Reset</button>
-        <button type="button" class="btn btn-primary" id="payNowBtn">
-          <i class="fas fa-credit-card"></i> Pay with Razorpay
+        <button type="button" class="btn btn-primary" id="generateLinkBtn">
+          <i class="fas fa-link"></i> Generate Payment Link
         </button>
         <button type="button" class="btn btn-success" id="simulateSuccessBtn">
           <i class="fas fa-check-circle"></i> Simulate Payment
         </button>
       </div>
 
-      <div id="paymentStatus"><i class="fas fa-info-circle"></i> Awaiting payment</div>
+      <div id="paymentStatus"><i class="fas fa-info-circle"></i> Fill details and generate payment link</div>
       <div id="whatsappMsg" class="whatsapp-msg">
         <i class="fab fa-whatsapp"></i> Payment success! Data saved & WhatsApp notification sent to 9288678795
       </div>
@@ -377,13 +383,11 @@
   </div>
 
   <!-- ============================================================ -->
-  <!-- 🔴 FIREBASE SDK (compat) + Razorpay SDK -->
+  <!-- FIREBASE SDK -->
   <!-- ============================================================ -->
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js">
   </script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js">
-  </script>
-  <script src="https://checkout.razorpay.com/v1/checkout.js">
   </script>
 
   <script>
@@ -391,7 +395,7 @@
       console.log('🔵 Application starting...');
 
       // ============================================================
-      // 🔴 FIREBASE CONFIG - YOUR CONFIG
+      // FIREBASE CONFIG
       // ============================================================
       const firebaseConfig = {
         apiKey: "AIzaSyCpmdEAzgeAkMsF7L67b4mJSh81KQjMXxA",
@@ -417,7 +421,6 @@
         console.error('❌ Firebase initialization error:', e);
         document.getElementById('firebaseStatus').innerHTML =
           '<i class="fas fa-exclamation-triangle" style="color:#b34a1c;"></i> Firebase: Error - ' + e.message;
-        // Fallback dummy database
         database = {
           ref: () => ({
             push: (data) => {
@@ -429,9 +432,9 @@
       }
 
       // ============================================================
-      // 🔴 RAZORPAY KEY - YOUR REAL KEY (ADDED)
+      // 🔴 YOUR PAYMENT LINK (HARDCODED)
       // ============================================================
-      const RAZORPAY_KEY = "rzp_live_T4LKvIEGXkdiMM";
+      const PAYMENT_LINK = "https://rzp.io/rzp/m5J3EP6";
 
       // ============================================================
       // DOM REFS
@@ -442,11 +445,13 @@
       const motherName = document.getElementById('motherName');
       const emailId = document.getElementById('emailId');
       const phoneNumber = document.getElementById('phoneNumber');
-      const payBtn = document.getElementById('payNowBtn');
+      const generateBtn = document.getElementById('generateLinkBtn');
       const simulateBtn = document.getElementById('simulateSuccessBtn');
       const resetBtn = document.getElementById('resetBtn');
       const paymentStatus = document.getElementById('paymentStatus');
       const whatsappMsg = document.getElementById('whatsappMsg');
+      const paymentLinkBox = document.getElementById('paymentLinkBox');
+      const paymentLink = document.getElementById('paymentLink');
 
       // ============================================================
       // HELPERS
@@ -496,129 +501,122 @@
       }
 
       // ============================================================
-      // RAZORPAY PAYMENT
+      // GENERATE PAYMENT LINK (SHOW HARDCODED LINK)
       // ============================================================
-      function triggerRazorpay(successCallback, failCallback) {
-        if (typeof Razorpay === 'undefined') {
-          failCallback('Razorpay SDK not loaded. Please check internet connection.');
+      async function generatePaymentLink() {
+        const formData = getFormData();
+
+        // Validate
+        if (!formData.studentNameEN) {
+          paymentStatus.innerHTML = `<i class="fas fa-exclamation-circle"></i> Please enter Student Name`;
+          studentEN.focus();
+          return;
+        }
+        if (!formData.email || !formData.email.includes('@')) {
+          paymentStatus.innerHTML = `<i class="fas fa-exclamation-circle"></i> Please enter valid Email`;
+          emailId.focus();
+          return;
+        }
+        if (!formData.phone || formData.phone.length < 10) {
+          paymentStatus.innerHTML = `<i class="fas fa-exclamation-circle"></i> Please enter valid Phone Number`;
+          phoneNumber.focus();
           return;
         }
 
-        const options = {
-          key: RAZORPAY_KEY,
-          amount: 5000, // ₹50 in paise
-          currency: 'INR',
-          name: 'Kolhan University',
-          description: 'UG Admission Application Fee',
-          image: 'https://kolhanuniversity.ac.in/favicon.ico',
-          prefill: {
-            name: studentEN.value || 'Student',
-            email: emailId.value || 'student@example.com',
-            contact: phoneNumber.value || '9999999999'
-          },
-          theme: {
-            color: '#0a3d5e',
-            backdrop_color: '#ffffff'
-          },
-          modal: {
-            ondismiss: function() {
-              failCallback('Payment modal closed by user');
-            }
-          },
-          handler: function(response) {
-            console.log('✅ Payment Success Response:', response);
-            if (response.razorpay_payment_id) {
-              successCallback(response);
-            } else {
-              failCallback('Payment failed: No payment ID received');
-            }
-          }
-        };
+        paymentStatus.innerHTML = `<i class="fas fa-spinner fa-pulse"></i> Generating payment link...`;
 
         try {
-          console.log('🟡 Opening Razorpay with key:', RAZORPAY_KEY.substring(0, 10) + '...');
-          const rzp = new Razorpay(options);
-          rzp.open();
+          // Save pending payment data to Firebase
+          const paymentData = {
+            ...formData,
+            paymentId: 'PAY_' + Date.now(),
+            paymentStatus: 'pending',
+            paymentLink: PAYMENT_LINK
+          };
+
+          await saveToFirebase(paymentData);
+
+          // Show the hardcoded payment link
+          paymentLink.href = PAYMENT_LINK;
+          paymentLink.textContent = PAYMENT_LINK;
+          paymentLinkBox.classList.add('show');
+
+          paymentStatus.innerHTML =
+            `<i class="fas fa-check-circle" style="color:#1a7a4c;"></i> ✅ Payment link generated! Click the link above to pay ₹50.`;
+
+          // Store payment ID for tracking
+          window._currentPaymentId = paymentData.paymentId;
+
         } catch (error) {
-          console.error('❌ Razorpay Error:', error);
-          failCallback('Error opening Razorpay: ' + error.message);
+          paymentStatus.innerHTML =
+            `<i class="fas fa-exclamation-triangle" style="color:#b34a1c;"></i> Error generating link: ${error.message}`;
         }
       }
 
       // ============================================================
-      // PAYMENT SUCCESS / FAIL HANDLERS
+      // SIMULATE PAYMENT SUCCESS (for testing)
       // ============================================================
-      async function handlePaymentSuccess(paymentResponse) {
+      async function simulatePaymentSuccess() {
         const formData = getFormData();
-        formData.paymentId = paymentResponse?.razorpay_payment_id || 'SIM_' + Date.now();
-        formData.paymentStatus = 'success';
+
+        if (!formData.studentNameEN || !formData.email) {
+          paymentStatus.innerHTML = `<i class="fas fa-exclamation-circle"></i> Fill student name & email first.`;
+          return;
+        }
+
+        const paymentId = window._currentPaymentId || 'SIM_' + Date.now();
+        const paymentData = {
+          ...formData,
+          paymentId: paymentId,
+          paymentStatus: 'success',
+          paymentLink: PAYMENT_LINK,
+          timestamp: new Date().toISOString()
+        };
 
         try {
-          await saveToFirebase(formData);
+          await saveToFirebase(paymentData);
           paymentStatus.innerHTML =
             `<i class="fas fa-check-circle" style="color:#1a7a4c;"></i> ✅ Payment successful! Data saved to Firebase.`;
           whatsappMsg.classList.add('show');
-          sendWhatsAppNotification(formData);
+          sendWhatsAppNotification(paymentData);
           document.querySelector('.footnote').innerHTML =
             `<i class="fas fa-cloud-upload-alt"></i> ✅ Payment confirmed. <a href="#" style="color:#0a3d5e;font-weight:600;">Upload documents here</a> (link sent via WhatsApp)`;
         } catch (e) {
           paymentStatus.innerHTML =
-            `<i class="fas fa-exclamation-triangle" style="color:#b34a1c;"></i> Payment success but data save error: ${e.message}`;
+            `<i class="fas fa-exclamation-triangle" style="color:#b34a1c;"></i> Error: ${e.message}`;
         }
       }
 
-      function handlePaymentFail(reason) {
-        paymentStatus.innerHTML =
-          `<i class="fas fa-times-circle" style="color:#b33c3c;"></i> ❌ Payment failed: ${reason || 'Please try again'}`;
-        whatsappMsg.classList.remove('show');
-      }
+      // ============================================================
+      // COPY PAYMENT LINK
+      // ============================================================
+      window.copyPaymentLink = function() {
+        const link = PAYMENT_LINK;
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(link).then(() => {
+            paymentStatus.innerHTML = `<i class="fas fa-check-circle" style="color:#1a7a4c;"></i> Link copied to clipboard!`;
+          });
+        } else {
+          // Fallback
+          const textArea = document.createElement('textarea');
+          textArea.value = link;
+          document.body.appendChild(textArea);
+          textArea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textArea);
+          paymentStatus.innerHTML = `<i class="fas fa-check-circle" style="color:#1a7a4c;"></i> Link copied to clipboard!`;
+        }
+      };
 
       // ============================================================
       // EVENT LISTENERS
       // ============================================================
 
-      // Pay with Razorpay
-      payBtn.addEventListener('click', function() {
-        // Validate form
-        if (!studentEN.value.trim()) {
-          paymentStatus.innerHTML = `<i class="fas fa-exclamation-circle"></i> Please enter Student Name`;
-          studentEN.focus();
-          return;
-        }
-        if (!emailId.value.trim() || !emailId.value.includes('@')) {
-          paymentStatus.innerHTML = `<i class="fas fa-exclamation-circle"></i> Please enter valid Email`;
-          emailId.focus();
-          return;
-        }
-        if (!phoneNumber.value.trim() || phoneNumber.value.length < 10) {
-          paymentStatus.innerHTML = `<i class="fas fa-exclamation-circle"></i> Please enter valid Phone Number (10 digits)`;
-          phoneNumber.focus();
-          return;
-        }
+      // Generate Payment Link
+      generateBtn.addEventListener('click', generatePaymentLink);
 
-        paymentStatus.innerHTML = `<i class="fas fa-spinner fa-pulse"></i> Opening payment gateway...`;
-
-        if (typeof Razorpay === 'undefined') {
-          paymentStatus.innerHTML =
-            `<i class="fas fa-exclamation-triangle" style="color:#b34a1c;"></i> ⚠️ Razorpay SDK not loaded. Please check internet connection.`;
-          return;
-        }
-
-        triggerRazorpay(
-          (resp) => handlePaymentSuccess(resp),
-          (reason) => handlePaymentFail(reason)
-        );
-      });
-
-      // Simulate payment (for testing without real payment)
-      simulateBtn.addEventListener('click', async function() {
-        if (!studentEN.value.trim() || !emailId.value.trim()) {
-          paymentStatus.innerHTML = `<i class="fas fa-exclamation-circle"></i> Fill student name & email first.`;
-          return;
-        }
-        const fakeResponse = { razorpay_payment_id: 'SIM_' + Math.random().toString(36).substr(2, 8) };
-        await handlePaymentSuccess(fakeResponse);
-      });
+      // Simulate Payment Success
+      simulateBtn.addEventListener('click', simulatePaymentSuccess);
 
       // Reset
       resetBtn.addEventListener('click', function() {
@@ -628,24 +626,16 @@
         motherName.value = '';
         emailId.value = '';
         phoneNumber.value = '';
+        paymentLinkBox.classList.remove('show');
         paymentStatus.innerHTML = `<i class="fas fa-info-circle"></i> Form reset`;
         whatsappMsg.classList.remove('show');
         document.querySelector('.footnote').innerHTML =
           `<i class="fas fa-shield-alt"></i> All data stored securely via Firebase · document upload link shared after payment`;
+        window._currentPaymentId = null;
       });
 
-      // ============================================================
-      // STARTUP CHECKS
-      // ============================================================
-      console.log('✅ Razorpay Key is set:', RAZORPAY_KEY.substring(0, 10) + '...');
-      console.log('🚀 Application ready! Firebase:', firebaseInitialized ? '✅ Connected' : '❌ Not connected');
-
-      // Display key status
-      if (RAZORPAY_KEY && RAZORPAY_KEY.startsWith('rzp_')) {
-        console.log('✅ Razorpay key format looks valid');
-      } else {
-        console.warn('⚠️ Razorpay key format may be invalid');
-      }
+      console.log('✅ Payment Link:', PAYMENT_LINK);
+      console.log('🚀 Application ready!');
 
     })();
   </script>
