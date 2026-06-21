@@ -232,6 +232,11 @@
       box-shadow: 0 10px 20px -8px #1a7a4c60;
     }
     .btn-success:hover { background: #24915e; }
+    .btn-warning {
+      background: #f59e0b;
+      border-color: #f59e0b;
+      color: white;
+    }
     #paymentStatus {
       margin-top: 1.2rem;
       font-weight: 600;
@@ -264,7 +269,9 @@
     #firebaseStatus {
       font-size: 0.7rem;
       margin-top: 0.3rem;
-      color: #2a6b3a;
+      padding: 0.3rem 0.8rem;
+      border-radius: 30px;
+      background: #f1f5f9;
     }
     .payment-link-box {
       background: #f8fafc;
@@ -292,6 +299,16 @@
       margin-left: 0.5rem;
     }
     .copy-btn:hover { background: #cbd5e1; }
+    .error-box {
+      background: #fee2e2;
+      border: 1px solid #fca5a5;
+      border-radius: 20px;
+      padding: 0.8rem 1.2rem;
+      margin: 0.5rem 0;
+      color: #991b1b;
+      display: none;
+    }
+    .error-box.show { display: block; }
   </style>
 </head>
 <body>
@@ -360,6 +377,12 @@
         </p>
       </div>
 
+      <!-- Error Box -->
+      <div id="errorBox" class="error-box">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span id="errorMessage">Firebase permission error. Please check security rules.</span>
+      </div>
+
       <div class="action-bar">
         <button type="button" class="btn" id="resetBtn"><i class="fas fa-undo-alt"></i> Reset</button>
         <button type="button" class="btn btn-primary" id="generateLinkBtn">
@@ -409,22 +432,28 @@
 
       let database;
       let firebaseInitialized = false;
+      const firebaseStatus = document.getElementById('firebaseStatus');
+      const errorBox = document.getElementById('errorBox');
+      const errorMessage = document.getElementById('errorMessage');
 
       try {
         const app = firebase.initializeApp(firebaseConfig);
         database = firebase.database(app);
         firebaseInitialized = true;
         console.log('✅ Firebase initialized successfully!');
-        document.getElementById('firebaseStatus').innerHTML =
+        firebaseStatus.innerHTML =
           '<i class="fas fa-check-circle" style="color:#1a7a4c;"></i> Firebase: Connected ✅';
       } catch (e) {
         console.error('❌ Firebase initialization error:', e);
-        document.getElementById('firebaseStatus').innerHTML =
+        firebaseStatus.innerHTML =
           '<i class="fas fa-exclamation-triangle" style="color:#b34a1c;"></i> Firebase: Error - ' + e.message;
+        showError('Firebase initialization failed: ' + e.message);
+        // Fallback dummy database
         database = {
           ref: () => ({
-            push: (data) => {
+            push: (data, callback) => {
               console.log('📝 FIREBASE FALLBACK PUSH:', data);
+              if (callback) callback(null);
               return Promise.resolve(true);
             }
           })
@@ -454,6 +483,21 @@
       const paymentLink = document.getElementById('paymentLink');
 
       // ============================================================
+      // ERROR HANDLING
+      // ============================================================
+      function showError(msg) {
+        errorMessage.textContent = msg;
+        errorBox.classList.add('show');
+        setTimeout(() => {
+          errorBox.classList.remove('show');
+        }, 8000);
+      }
+
+      function hideError() {
+        errorBox.classList.remove('show');
+      }
+
+      // ============================================================
       // HELPERS
       // ============================================================
       function getFormData() {
@@ -480,7 +524,11 @@
             ref.push(data, (error) => {
               if (error) {
                 console.error('❌ Firebase save error:', error);
-                reject(error);
+                if (error.code === 'PERMISSION_DENIED') {
+                  reject(new Error('PERMISSION_DENIED: Firebase security rules are blocking write access. Please update rules to allow write.'));
+                } else {
+                  reject(error);
+                }
               } else {
                 console.log('✅ Data saved to Firebase:', data);
                 resolve(true);
@@ -501,9 +549,10 @@
       }
 
       // ============================================================
-      // GENERATE PAYMENT LINK (SHOW HARDCODED LINK)
+      // GENERATE PAYMENT LINK
       // ============================================================
       async function generatePaymentLink() {
+        hideError();
         const formData = getFormData();
 
         // Validate
@@ -526,17 +575,16 @@
         paymentStatus.innerHTML = `<i class="fas fa-spinner fa-pulse"></i> Generating payment link...`;
 
         try {
-          // Save pending payment data to Firebase
           const paymentData = {
             ...formData,
-            paymentId: 'PAY_' + Date.now(),
+            paymentId: 'PAY_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
             paymentStatus: 'pending',
             paymentLink: PAYMENT_LINK
           };
 
           await saveToFirebase(paymentData);
 
-          // Show the hardcoded payment link
+          // Show the payment link
           paymentLink.href = PAYMENT_LINK;
           paymentLink.textContent = PAYMENT_LINK;
           paymentLinkBox.classList.add('show');
@@ -544,19 +592,26 @@
           paymentStatus.innerHTML =
             `<i class="fas fa-check-circle" style="color:#1a7a4c;"></i> ✅ Payment link generated! Click the link above to pay ₹50.`;
 
-          // Store payment ID for tracking
           window._currentPaymentId = paymentData.paymentId;
 
         } catch (error) {
+          const errorMsg = error.message || 'Unknown error';
           paymentStatus.innerHTML =
-            `<i class="fas fa-exclamation-triangle" style="color:#b34a1c;"></i> Error generating link: ${error.message}`;
+            `<i class="fas fa-exclamation-triangle" style="color:#b34a1c;"></i> Error: ${errorMsg}`;
+
+          if (errorMsg.includes('PERMISSION_DENIED')) {
+            showError('🔥 Firebase PERMISSION_DENIED: Please update Firebase security rules to allow write access. Go to Firebase Console → Realtime Database → Rules → Set ".write": true');
+          } else {
+            showError('Error: ' + errorMsg);
+          }
         }
       }
 
       // ============================================================
-      // SIMULATE PAYMENT SUCCESS (for testing)
+      // SIMULATE PAYMENT SUCCESS
       // ============================================================
       async function simulatePaymentSuccess() {
+        hideError();
         const formData = getFormData();
 
         if (!formData.studentNameEN || !formData.email) {
@@ -582,8 +637,12 @@
           document.querySelector('.footnote').innerHTML =
             `<i class="fas fa-cloud-upload-alt"></i> ✅ Payment confirmed. <a href="#" style="color:#0a3d5e;font-weight:600;">Upload documents here</a> (link sent via WhatsApp)`;
         } catch (e) {
+          const errorMsg = e.message || 'Unknown error';
           paymentStatus.innerHTML =
-            `<i class="fas fa-exclamation-triangle" style="color:#b34a1c;"></i> Error: ${e.message}`;
+            `<i class="fas fa-exclamation-triangle" style="color:#b34a1c;"></i> Error: ${errorMsg}`;
+          if (errorMsg.includes('PERMISSION_DENIED')) {
+            showError('🔥 Firebase PERMISSION_DENIED: Please update Firebase security rules.');
+          }
         }
       }
 
@@ -597,7 +656,6 @@
             paymentStatus.innerHTML = `<i class="fas fa-check-circle" style="color:#1a7a4c;"></i> Link copied to clipboard!`;
           });
         } else {
-          // Fallback
           const textArea = document.createElement('textarea');
           textArea.value = link;
           document.body.appendChild(textArea);
@@ -612,13 +670,9 @@
       // EVENT LISTENERS
       // ============================================================
 
-      // Generate Payment Link
       generateBtn.addEventListener('click', generatePaymentLink);
-
-      // Simulate Payment Success
       simulateBtn.addEventListener('click', simulatePaymentSuccess);
 
-      // Reset
       resetBtn.addEventListener('click', function() {
         studentEN.value = '';
         studentHI.value = '';
@@ -629,6 +683,7 @@
         paymentLinkBox.classList.remove('show');
         paymentStatus.innerHTML = `<i class="fas fa-info-circle"></i> Form reset`;
         whatsappMsg.classList.remove('show');
+        hideError();
         document.querySelector('.footnote').innerHTML =
           `<i class="fas fa-shield-alt"></i> All data stored securely via Firebase · document upload link shared after payment`;
         window._currentPaymentId = null;
@@ -636,6 +691,11 @@
 
       console.log('✅ Payment Link:', PAYMENT_LINK);
       console.log('🚀 Application ready!');
+
+      // Check Firebase status
+      if (!firebaseInitialized) {
+        showError('⚠️ Firebase not initialized. Please check your configuration.');
+      }
 
     })();
   </script>
