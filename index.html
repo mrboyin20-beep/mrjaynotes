@@ -292,14 +292,6 @@
     }
     .footnote i { color: #1c6f9c; }
     .hidden { display: none; }
-    .razorpay-loading {
-      display: none;
-      align-items: center;
-      gap: 0.5rem;
-      color: #1c6f9c;
-      font-weight: 600;
-    }
-    .razorpay-loading.show { display: flex; }
     #firebaseStatus {
       font-size: 0.7rem;
       margin-top: 0.3rem;
@@ -376,7 +368,7 @@
       <div id="whatsappMsg" class="whatsapp-msg">
         <i class="fab fa-whatsapp"></i> Payment success! Data saved & WhatsApp notification sent to 9288678795
       </div>
-      <div id="firebaseStatus"><i class="fas fa-database"></i> Firebase: Ready</div>
+      <div id="firebaseStatus"><i class="fas fa-database"></i> Firebase: Connecting...</div>
     </form>
 
     <div class="footnote">
@@ -399,7 +391,7 @@
       console.log('🔵 Application starting...');
 
       // ============================================================
-      // 🔴 FIREBASE CONFIG - YOUR REAL CONFIG
+      // 🔴 FIREBASE CONFIG - YOUR CONFIG
       // ============================================================
       const firebaseConfig = {
         apiKey: "AIzaSyCpmdEAzgeAkMsF7L67b4mJSh81KQjMXxA",
@@ -415,7 +407,6 @@
       let firebaseInitialized = false;
 
       try {
-        // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
         database = firebase.database(app);
         firebaseInitialized = true;
@@ -438,9 +429,9 @@
       }
 
       // ============================================================
-      // 🔴 RAZORPAY KEY - YAHAN APNI REAL KEY DALEN
+      // 🔴 RAZORPAY KEY - YOUR REAL KEY (ADDED)
       // ============================================================
-      const RAZORPAY_KEY = "rzp_live_T4LKvIEGXkdiMM"; // <-- 🔴🔴🔴 YAHAN BADLEIN 🔴🔴🔴
+      const RAZORPAY_KEY = "rzp_live_T4LKvIEGXkdiMM";
 
       // ============================================================
       // DOM REFS
@@ -510,11 +501,6 @@
       function triggerRazorpay(successCallback, failCallback) {
         if (typeof Razorpay === 'undefined') {
           failCallback('Razorpay SDK not loaded. Please check internet connection.');
-          return;
-        }
-
-        if (RAZORPAY_KEY === 'rzp_live_T4LKvIEGXkdiMM' || RAZORPAY_KEY === '') {
-          failCallback('⚠️ Please add your REAL Razorpay Key in the code (search for RAZORPAY_KEY)');
           return;
         }
 
@@ -651,14 +637,15 @@
       // ============================================================
       // STARTUP CHECKS
       // ============================================================
-      if (RAZORPAY_KEY === 'rzp_live_T4LKvIEGXkdiMM' || RAZORPAY_KEY === '') {
-        paymentStatus.innerHTML =
-          `<i class="fas fa-exclamation-triangle" style="color:#b34a1c;"></i> ⚠️ Please add your REAL Razorpay Key in the code (search for RAZORPAY_KEY)`;
-      } else {
-        console.log('✅ Razorpay Key is set:', RAZORPAY_KEY.substring(0, 10) + '...');
-      }
-
+      console.log('✅ Razorpay Key is set:', RAZORPAY_KEY.substring(0, 10) + '...');
       console.log('🚀 Application ready! Firebase:', firebaseInitialized ? '✅ Connected' : '❌ Not connected');
+
+      // Display key status
+      if (RAZORPAY_KEY && RAZORPAY_KEY.startsWith('rzp_')) {
+        console.log('✅ Razorpay key format looks valid');
+      } else {
+        console.warn('⚠️ Razorpay key format may be invalid');
+      }
 
     })();
   </script>
