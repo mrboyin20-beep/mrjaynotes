@@ -348,6 +348,17 @@
             transform: translateY(-2px);
         }
 
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+        }
+
+        .btn-whatsapp:hover {
+            background: #1da851;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+        }
+
         .btn-outline {
             background: transparent;
             color: #0a3d5e;
@@ -432,22 +443,52 @@
             border: 1px solid #93c5fd;
         }
 
-        /* ============ WHATSAPP MESSAGE ============ */
-        .whatsapp-msg {
-            background: #d1fae5;
-            border-radius: 16px;
-            padding: 0.8rem 1.2rem;
-            color: #065f46;
+        /* ============ WHATSAPP REDIRECT SECTION ============ */
+        .whatsapp-redirect-box {
+            background: linear-gradient(145deg, #d1fae5, #a7f3d0);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            text-align: center;
+            border: 2px solid #25D366;
             display: none;
-            font-weight: 500;
-            border-left: 6px solid #25D366;
-            margin: 1rem 0;
+            animation: fadeIn 0.6s ease;
         }
 
-        .whatsapp-msg.show {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
+        .whatsapp-redirect-box.show {
+            display: block;
+        }
+
+        .whatsapp-redirect-box .wa-icon {
+            font-size: 4rem;
+            color: #25D366;
+            margin-bottom: 0.5rem;
+        }
+
+        .whatsapp-redirect-box h3 {
+            color: #065f46;
+            margin-bottom: 0.5rem;
+        }
+
+        .whatsapp-redirect-box p {
+            color: #065f46;
+            margin-bottom: 1.5rem;
+        }
+
+        .whatsapp-redirect-box .btn-whatsapp {
+            font-size: 1.2rem;
+            padding: 1rem 3rem;
+            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3);
+        }
+
+        .whatsapp-redirect-box .btn-whatsapp:hover {
+            box-shadow: 0 12px 32px rgba(37, 211, 102, 0.4);
+        }
+
+        .auto-redirect-timer {
+            font-size: 0.9rem;
+            color: #047857;
+            margin-top: 1rem;
         }
 
         /* ============ FOOTER ============ */
@@ -482,6 +523,10 @@
                 flex-direction: column;
             }
             .form-actions .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .whatsapp-redirect-box .btn-whatsapp {
                 width: 100%;
                 justify-content: center;
             }
@@ -526,7 +571,7 @@
                 </div>
                 <div class="progress-step" data-step="3">
                     <div class="step-circle">3</div>
-                    <span class="step-label">Documents</span>
+                    <span class="step-label">WhatsApp</span>
                 </div>
             </div>
 
@@ -604,9 +649,6 @@
 
                 <!-- Status Messages -->
                 <div id="statusMsg" class="status-msg"></div>
-                <div id="whatsappMsg" class="whatsapp-msg">
-                    <i class="fab fa-whatsapp"></i> Payment success! Data saved & WhatsApp notification sent.
-                </div>
 
                 <div class="form-actions">
                     <button class="btn btn-outline" onclick="goToStep(1)">
@@ -622,46 +664,48 @@
             </div>
 
             <!-- ============================================================ -->
-            <!-- STEP 3: DOCUMENTS -->
+            <!-- STEP 3: WHATSAPP REDIRECT -->
             <!-- ============================================================ -->
             <div class="form-section" id="step3">
                 <div class="section-title">
-                    <i class="fas fa-upload"></i> Upload Documents
+                    <i class="fab fa-whatsapp" style="color:#25D366;"></i> WhatsApp Confirmation
                 </div>
 
-                <p style="color:#4a6a85;margin-bottom:1.5rem;">
-                    Please upload the following documents after payment confirmation.
-                </p>
-
-                <div class="grid-2col">
-                    <div class="input-group">
-                        <label>Passport Size Photo</label>
-                        <input type="file" accept="image/*" />
+                <!-- WhatsApp Redirect Box -->
+                <div id="whatsappRedirectBox" class="whatsapp-redirect-box">
+                    <div class="wa-icon">
+                        <i class="fab fa-whatsapp"></i>
                     </div>
-                    <div class="input-group">
-                        <label>Signature</label>
-                        <input type="file" accept="image/*" />
+                    <h3>✅ Payment Successful!</h3>
+                    <p>
+                        Your application has been submitted successfully.<br />
+                        Please send the following details on WhatsApp to complete the process:
+                    </p>
+                    <div style="background:white;border-radius:12px;padding:1rem;margin:1rem 0;text-align:left;font-size:0.9rem;color:#0a2a3f;">
+                        <div><strong>📝 Student:</strong> <span id="waStudentName">-</span></div>
+                        <div><strong>📧 Email:</strong> <span id="waEmail">-</span></div>
+                        <div><strong>📱 Phone:</strong> <span id="waPhone">-</span></div>
+                        <div><strong>🆔 Payment ID:</strong> <span id="waPaymentId">-</span></div>
                     </div>
-                    <div class="input-group">
-                        <label>10th Marksheet</label>
-                        <input type="file" accept=".pdf,.jpg,.png" />
+                    <button class="btn btn-whatsapp" onclick="redirectToWhatsApp()">
+                        <i class="fab fa-whatsapp"></i> Send on WhatsApp
+                    </button>
+                    <div class="auto-redirect-timer">
+                        <i class="fas fa-clock"></i> Redirecting in <span id="timerCount">10</span> seconds...
                     </div>
-                    <div class="input-group">
-                        <label>12th Marksheet</label>
-                        <input type="file" accept=".pdf,.jpg,.png" />
-                    </div>
-                    <div class="input-group" style="grid-column:1/-1;">
-                        <label>Caste Certificate (if applicable)</label>
-                        <input type="file" accept=".pdf,.jpg,.png" />
-                    </div>
+                    <p style="margin-top:0.5rem;font-size:0.8rem;color:#047857;">
+                        <i class="fas fa-info-circle"></i> Auto-redirecting to WhatsApp
+                    </p>
                 </div>
+
+                <div id="statusMsg2" class="status-msg"></div>
 
                 <div class="form-actions">
                     <button class="btn btn-outline" onclick="goToStep(2)">
                         <i class="fas fa-arrow-left"></i> Back
                     </button>
-                    <button class="btn btn-success" onclick="submitApplication()">
-                        <i class="fas fa-check-circle"></i> Submit Application
+                    <button class="btn btn-primary" onclick="window.location.href='index.html'">
+                        <i class="fas fa-home"></i> Go to Home
                     </button>
                 </div>
             </div>
@@ -703,6 +747,11 @@
         const database = firebase.database();
 
         // ============================================================
+        // WHATSAPP NUMBER
+        // ============================================================
+        const WHATSAPP_NUMBER = "919288678795"; // Without '+'
+
+        // ============================================================
         // PAYMENT LINK (Hardcoded)
         // ============================================================
         const PAYMENT_LINK = "https://rzp.io/rzp/m5J3EP6";
@@ -719,26 +768,31 @@
         const paymentLinkBox = document.getElementById('paymentLinkBox');
         const paymentLink = document.getElementById('paymentLink');
         const statusMsg = document.getElementById('statusMsg');
-        const whatsappMsg = document.getElementById('whatsappMsg');
+        const statusMsg2 = document.getElementById('statusMsg2');
+        const whatsappRedirectBox = document.getElementById('whatsappRedirectBox');
+
+        // WhatsApp display fields
+        const waStudentName = document.getElementById('waStudentName');
+        const waEmail = document.getElementById('waEmail');
+        const waPhone = document.getElementById('waPhone');
+        const waPaymentId = document.getElementById('waPaymentId');
+        const timerCount = document.getElementById('timerCount');
 
         // ============================================================
         // STEP NAVIGATION
         // ============================================================
         let currentStep = 1;
+        let currentPaymentId = null;
+        let timerInterval = null;
 
         function goToStep(step) {
-            // Validate step 1 before going to step 2
             if (step === 2 && currentStep === 1) {
                 if (!validateStep1()) return;
             }
 
-            // Hide all sections
             document.querySelectorAll('.form-section').forEach(el => el.classList.remove('active'));
-
-            // Show target section
             document.getElementById('step' + step).classList.add('active');
 
-            // Update progress
             document.querySelectorAll('.progress-step').forEach(el => {
                 const s = parseInt(el.dataset.step);
                 el.classList.remove('active', 'done');
@@ -770,14 +824,12 @@
                 }
             }
 
-            // Validate email
             if (!emailId.value.includes('@')) {
                 showStatus('Please enter a valid email address', 'error');
                 emailId.focus();
                 return false;
             }
 
-            // Validate phone
             if (phoneNumber.value.length < 10) {
                 showStatus('Please enter a valid 10-digit phone number', 'error');
                 phoneNumber.focus();
@@ -793,6 +845,11 @@
         function showStatus(message, type = 'info') {
             statusMsg.textContent = message;
             statusMsg.className = 'status-msg show ' + type;
+        }
+
+        function showStatus2(message, type = 'info') {
+            statusMsg2.textContent = message;
+            statusMsg2.className = 'status-msg show ' + type;
         }
 
         function hideStatus() {
@@ -840,26 +897,22 @@
 
             try {
                 const formData = getFormData();
+                currentPaymentId = 'PAY_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
+
                 const paymentData = {
                     ...formData,
-                    paymentId: 'PAY_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+                    paymentId: currentPaymentId,
                     paymentStatus: 'pending',
                     paymentLink: PAYMENT_LINK
                 };
 
                 await saveToFirebase(paymentData);
 
-                // Show payment link
                 paymentLink.href = PAYMENT_LINK;
                 paymentLink.textContent = PAYMENT_LINK;
                 paymentLinkBox.classList.add('show');
 
                 showStatus('✅ Payment link generated! Click the link above to pay ₹50.', 'success');
-
-                // Auto go to step 3 after 2 seconds
-                setTimeout(() => {
-                    goToStep(3);
-                }, 2000);
 
             } catch (error) {
                 console.error('Error:', error);
@@ -868,20 +921,22 @@
         }
 
         // ============================================================
-        // SIMULATE PAYMENT
+        // SIMULATE PAYMENT → WhatsApp Redirect
         // ============================================================
         async function simulatePayment() {
             hideStatus();
 
             if (!validateStep1()) return;
 
-            showStatus('Processing simulated payment...', 'info');
+            showStatus('Processing payment...', 'info');
 
             try {
                 const formData = getFormData();
+                currentPaymentId = 'SIM_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
+
                 const paymentData = {
                     ...formData,
-                    paymentId: 'SIM_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+                    paymentId: currentPaymentId,
                     paymentStatus: 'success',
                     paymentLink: PAYMENT_LINK,
                     timestamp: new Date().toISOString()
@@ -889,23 +944,86 @@
 
                 await saveToFirebase(paymentData);
 
-                showStatus('✅ Payment successful! Data saved to Firebase.', 'success');
-                whatsappMsg.classList.add('show');
+                showStatus('✅ Payment successful! Redirecting to WhatsApp...', 'success');
 
-                // Show payment link
-                paymentLink.href = PAYMENT_LINK;
-                paymentLink.textContent = PAYMENT_LINK;
-                paymentLinkBox.classList.add('show');
-
-                // Auto go to step 3
-                setTimeout(() => {
-                    goToStep(3);
-                }, 1500);
+                // Show WhatsApp redirect box
+                showWhatsAppRedirect(formData, currentPaymentId);
 
             } catch (error) {
                 console.error('Error:', error);
                 showStatus('❌ Error: ' + error.message, 'error');
             }
+        }
+
+        // ============================================================
+        // SHOW WHATSAPP REDIRECT
+        // ============================================================
+        function showWhatsAppRedirect(formData, paymentId) {
+            // Fill data in WhatsApp box
+            waStudentName.textContent = formData.studentNameEN;
+            waEmail.textContent = formData.email;
+            waPhone.textContent = formData.phone;
+            waPaymentId.textContent = paymentId;
+
+            // Show the box
+            whatsappRedirectBox.classList.add('show');
+
+            // Auto-redirect to WhatsApp
+            let count = 10;
+            timerCount.textContent = count;
+
+            if (timerInterval) clearInterval(timerInterval);
+
+            timerInterval = setInterval(() => {
+                count--;
+                timerCount.textContent = count;
+
+                if (count <= 0) {
+                    clearInterval(timerInterval);
+                    redirectToWhatsApp();
+                }
+            }, 1000);
+
+            // Go to step 3
+            setTimeout(() => {
+                goToStep(3);
+            }, 500);
+        }
+
+        // ============================================================
+        // REDIRECT TO WHATSAPP
+        // ============================================================
+        function redirectToWhatsApp() {
+            const name = studentEN.value.trim() || 'Student';
+            const email = emailId.value.trim() || 'Not provided';
+            const phone = phoneNumber.value.trim() || 'Not provided';
+            const paymentId = currentPaymentId || 'N/A';
+
+            const message = `✅ *Admission Application Successful!* 🎉
+
+📝 *Student:* ${name}
+📧 *Email:* ${email}
+📱 *Phone:* ${phone}
+🆔 *Payment ID:* ${paymentId}
+🏛️ *University:* Kolhan University, Chaibasa
+📅 *Date:* ${new Date().toLocaleDateString('en-IN')}
+
+Please share your documents:
+📸 Photo
+✍️ Signature
+📄 10th Marksheet
+📄 12th Marksheet
+📄 Caste Certificate (if applicable)
+
+*Thank you for applying!* 🙏`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+
+            // Open WhatsApp in new tab
+            window.open(whatsappUrl, '_blank');
+
+            showStatus2('✅ WhatsApp opened! Please send the message.', 'success');
         }
 
         // ============================================================
@@ -929,22 +1047,12 @@
         }
 
         // ============================================================
-        // SUBMIT APPLICATION
-        // ============================================================
-        function submitApplication() {
-            showStatus('✅ Application submitted successfully! You will receive confirmation shortly.', 'success');
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 3000);
-        }
-
-        // ============================================================
         // EVENT LISTENERS
         // ============================================================
         document.getElementById('generateLinkBtn').addEventListener('click', generatePaymentLink);
         document.getElementById('simulateBtn').addEventListener('click', simulatePayment);
 
-        // Enter key support for step navigation
+        // Enter key support
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && currentStep === 1) {
                 e.preventDefault();
@@ -952,7 +1060,8 @@
             }
         });
 
-        console.log('🚀 Admission portal loaded successfully!');
+        console.log('🚀 Admission portal with WhatsApp redirect loaded!');
+        console.log('📱 WhatsApp Number:', WHATSAPP_NUMBER);
     </script>
 </body>
 </html>
